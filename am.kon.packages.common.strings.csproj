@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <Nullable>disable</Nullable>
+    <ReleaseVersion>1.0.0.0</ReleaseVersion>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageId>am.kon.packages.common.strings</PackageId>
+    <PackageVersion>1.0.0.0</PackageVersion>
+    <Authors>Konakov Sergey</Authors>
+    <Description>Package containing extensions, used for string operations</Description>
+    <RepositoryUrl>https://github.com/konak/am.kon.packages.common.strings</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>konak packages strings</PackageTags>
+  </PropertyGroup>
+
+</Project>
