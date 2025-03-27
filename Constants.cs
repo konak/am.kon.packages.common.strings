@@ -5,24 +5,26 @@ namespace am.kon.packages.common.strings
 	{
 		public static class Characters
 		{
-            public const char SpaceSeparatorCharacter = ' ';
-            public const char SlashCharacter = '/';
-            public const char BackSlashCharacter = '\\';
-            public const char TildeCharacter = '~';
-            public const char QuestionCharacter = '?';
-            public const char AmpersantCharacter = '&';
-            public const char EqualCharacter = '=';
-            public const char SharpCharacter = '#';
+            public const char Space = ' ';
+            public const char Slash = '/';
+            public const char BackSlash = '\\';
+            public const char Tilde = '~';
+            public const char Question = '?';
+            public const char Ampersant = '&';
+            public const char Equal = '=';
+            public const char Sharp = '#';
+            public const char Dot = '.';
         }
 
         public static class Strings
         {
-            public const string SpaceSeparatorString = " ";
-            public const string SlashString = "/";
+            public const string Space = " ";
+            public const string Slash = "/";
+            public const string UrlSchemeDelimiter = "://";
         }
 
-        public static readonly char[] SpaceSeparatorCharactersArray = new char[] { Characters.SpaceSeparatorCharacter };
-		public static readonly string[] SpaceSeparatorStringsArray = new string[] { Strings.SpaceSeparatorString };
+        public static readonly char[] SpaceSeparatorCharactersArray = new char[] { Characters.Space };
+		public static readonly string[] SpaceSeparatorStringsArray = new string[] { Strings.Space };
     }
 }
 

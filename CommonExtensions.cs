@@ -7,15 +7,15 @@ using System.Linq;
 namespace am.kon.packages.common.strings
 {
 	/// <summary>
-	/// Common extensionn functions to operate with strings
+	/// Common extension functions to operate with strings
 	/// </summary>
 	public static class CommonExtensions
 	{
         /// <summary>
-        /// Transform <see cref="IEnumerable<string>" into space separated string/>
+        /// Converts a collection of strings into a single space-separated string.
         /// </summary>
-        /// <param name="list">list of string items to be joined</param>
-        /// <returns></returns>
+        /// <param name="list">The collection of strings to be joined with a space character as the separator.</param>
+        /// <returns>A single string representation of the input collection separated by spaces, or an empty string if the list is null.</returns>
         [DebuggerStepThrough]
         public static string ToSpaceSeparatedString(this IEnumerable<string> list)
         {
@@ -24,53 +24,64 @@ namespace am.kon.packages.common.strings
                 return string.Empty;
             }
 
-            return string.Join(Constants.Characters.SpaceSeparatorCharacter, list);
+            return string.Join(Constants.Characters.Space, list);
         }
 
         /// <summary>
-        /// Transform space separated string into array of strings using space character as separator
+        /// Converts a space-separated string into a collection of strings.
         /// </summary>
-        /// <param name="value">String value to be transformed</param>
-        /// <returns></returns>
+        /// <param name="value">The space-separated string to be parsed.</param>
+        /// <param name="separatorCharacters">The characters to be used as separators. Defaults to space character.</param>
+        /// <returns>A collection of strings parsed from the input string.</returns>
         [DebuggerStepThrough]
-        public static IEnumerable<string> FromSpaceSeparatedString(this string value)
+        public static IEnumerable<string> FromSpaceSeparatedString(this string value, char[] separatorCharacters = null)
         {
-            value = value.Trim();
-            return value.Split(Constants.SpaceSeparatorCharactersArray, StringSplitOptions.RemoveEmptyEntries);
+            return value.Trim().Split(separatorCharacters ?? Constants.SpaceSeparatorCharactersArray, StringSplitOptions.RemoveEmptyEntries);
         }
 
         /// <summary>
-        /// Proxy extension method for IsNullOrWhiteSpace method of <see cref="string"/> object.
+        /// Checks if a given string is null, empty, or consists only of whitespace characters.
         /// </summary>
-        /// <param name="value">String value to be checked</param>
-        /// <returns></returns>
+        /// <param name="value">The string to be checked.</param>
+        /// <returns>True if the string is null, empty, or contains only whitespace; otherwise, false.</returns>
         [DebuggerStepThrough]
-        public static bool IsNullOrWhiteSpace(this string value) => string.IsNullOrWhiteSpace(value);
+        public static bool IsBlank(this string value) => string.IsNullOrWhiteSpace(value);
 
         /// <summary>
-        /// Proxy extension method returinng negative vaule of IsNullOrWhiteSpace method of <see cref="string"/> object.
+        /// Determines whether a string is not null, not empty, and does not consist only of whitespace characters.
         /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
+        /// <param name="value">The string to be checked.</param>
+        /// <returns>True if the string is not null, not empty, and does not consist only of whitespace characters; otherwise, false.</returns>
         [DebuggerStepThrough]
-        public static bool IsNotNullOrWhiteSpace(this string value) => !string.IsNullOrWhiteSpace(value);
+        public static bool NotBlank(this string value) => !string.IsNullOrWhiteSpace(value);
 
-
-        public static string Obfuscate(this string value)
+        /// <summary>
+        /// Obfuscates a string by replacing the majority of its content with mask characters
+        /// while preserving a specified number of characters from the end of the string.
+        /// </summary>
+        /// <param name="value">The string to be obfuscated.</param>
+        /// <param name="lastCharactersCount">The number of characters to preserve from the end of the string.</param>
+        /// <param name="maskLength">The number of mask characters to replace the remaining part of the string with.</param>
+        /// <returns>An obfuscated string consisting of the mask characters followed by the specified number of preserved characters,
+        /// or only mask characters if the input string is null, empty, or shorter than the preserved characters count.</returns>
+        public static string Obfuscate(this string value, int lastCharactersCount = 0, int maskLength = 7)
         {
-            var last4Chars = "****";
+            string result = new string('*', maskLength);
 
-            if (value.IsNotNullOrWhiteSpace() && value.Length > 4)
-            {
-                last4Chars = value.Substring(value.Length - 4);
-            }
+            if (value.IsBlank() && value.Length < lastCharactersCount)
+                return result;
 
-            return "****" + last4Chars;
+            return string.Concat(result, value[^lastCharactersCount..]);
         }
 
+        /// <summary>
+        /// Parses a space-delimited string into a sorted, distinct list of non-empty scopes.
+        /// </summary>
+        /// <param name="scopes">The input string containing space-separated scope values to be parsed.</param>
+        /// <returns>A list of distinct, sorted scope strings, or null if the input string is null, empty, or contains only whitespace.</returns>
         public static List<string> ParseScopesString(this string scopes)
         {
-            if (scopes.IsNullOrWhiteSpace())
+            if (scopes.IsBlank())
             {
                 return null;
             }
